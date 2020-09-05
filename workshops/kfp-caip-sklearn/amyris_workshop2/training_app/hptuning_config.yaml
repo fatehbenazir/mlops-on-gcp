@@ -27,6 +27,11 @@ trainingInput:
       minValue:  10
       maxValue:  200
       scaleType: UNIT_LINEAR_SCALE
+    - parameterName: max_leaf_nodes
+      type: INTEGER
+      minValue:  10
+      maxValue:  500
+      scaleType: UNIT_LINEAR_SCALE    
     - parameterName: max_depth
       type: INTEGER
       minValue:  3

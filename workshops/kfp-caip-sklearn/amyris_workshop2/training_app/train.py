@@ -43,7 +43,7 @@ from googleapiclient import discovery
 from googleapiclient import errors
 
 
-def train_evaluate(job_dir, training_dataset_path, n_estimators, max_depth, min_samples_split, hptune):
+def train_evaluate(job_dir, training_dataset_path, n_estimators, max_leaf_nodes, max_depth, min_samples_split, hptune):
     data = pd.read_excel(training_dataset_path,sheet_name='data')
     meta_data = pd.read_excel(training_dataset_path, sheet_name='meta data')
     
@@ -80,7 +80,7 @@ def train_evaluate(job_dir, training_dataset_path, n_estimators, max_depth, min_
                     ])
     
     
-    pipe.set_params(rfclassifier__n_estimators=n_estimators, rfclassifier__max_depth=max_depth,
+    pipe.set_params(rfclassifier__n_estimators=n_estimators, rfclassifier__max_leaf_nodes=max_leaf_nodes, rfclassifier__max_depth=max_depth,
                        rfclassifier__min_samples_split=min_samples_split)
     pipe.fit(X_train, y_train)
 
