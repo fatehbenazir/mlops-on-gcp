@@ -59,6 +59,13 @@ HYPERTUNE_SETTINGS = """
                 "scaleType": "UNIT_LINEAR_SCALE"
             },
             {
+                "parameterName": "max_leaf_nodes",
+                "type": "INTEGER",
+                "minValue": 10,
+                "maxValue": 500,
+                "scaleType": "UNIT_LINEAR_SCALE"
+            },
+            {
                 "parameterName": "max_depth",
                 "type": "INTEGER",
                 "minValue": 3,
@@ -175,7 +182,7 @@ def amyris_train(project_id,
     hypertune = mlengine_train_op(
         project_id=project_id,
         region=region,
-        master_image_uri='gcr.io/benazirsproject/amyris_trainer_image2:latest',
+        master_image_uri=TRAINER_IMAGE,
         job_dir=job_dir,
         args=tune_args,
         training_input=hypertune_settings)
@@ -190,7 +197,8 @@ def amyris_train(project_id,
     train_args = [
         '--training_dataset_path',
        TRAINING_FILE_PATH,
-         '--n_estimators',get_best_trial.outputs['n_estimators'], 
+        '--n_estimators',get_best_trial.outputs['n_estimators'], 
+        '--max_leaf_nodes',get_best_trial.outputs['max_leaf_nodes'], 
         '--max_depth',get_best_trial.outputs['max_depth'],
         '--min_samples_split',get_best_trial.outputs['min_samples_split'],
         '--hptune', 'False'
@@ -199,7 +207,7 @@ def amyris_train(project_id,
     train_model = mlengine_train_op(
         project_id=project_id,
         region=region,
-        master_image_uri='gcr.io/benazirsproject/amyris_trainer_image2:latest',
+        master_image_uri=TRAINER_IMAGE,
         job_dir=job_dir,
         args=train_args)
 

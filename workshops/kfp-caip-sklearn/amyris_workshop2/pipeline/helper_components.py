@@ -17,15 +17,12 @@ from typing import NamedTuple
 
 
 def retrieve_best_run(project_id: str, job_id: str) -> NamedTuple('Outputs', [('metric_value', float), ('n_estimators', int),
-                            ('max_depth', int), ('min_samples_split', int)]):
+                            ('max_leaf_nodes', int), ('max_depth', int), ('min_samples_split', int)]):
     """Retrieves the parameters of the best Hypertune run."""
 
     from googleapiclient import discovery
     from googleapiclient import errors
     
-#     print('n_estimators: {}'.format(n_estimators))
-#     print('max_depth: {}'.format(max_depth)
-
     ml = discovery.build('ml', 'v1')
 
     job_name = 'projects/{}/jobs/{}'.format(project_id, job_id)
@@ -45,13 +42,11 @@ def retrieve_best_run(project_id: str, job_id: str) -> NamedTuple('Outputs', [('
     metric_value = best_trial['finalMetric']['objectiveValue']
 
     n_estimators = int(best_trial['hyperparameters']['n_estimators'])
+    max_leaf_nodes = int(best_trial['hyperparameters']['max_leaf_nodes'])
     max_depth = int(best_trial['hyperparameters']['max_depth'])
     min_samples_split = int(best_trial['hyperparameters']['min_samples_split'])
-          
-    print('n_estimators: {}'.format(n_estimators))
-    print('max_depth: {}'.format(max_depth))
 
-    return (metric_value, n_estimators, max_depth, min_samples_split)
+    return (metric_value, n_estimators, max_leaf_nodes, max_depth, min_samples_split)
 
 
 def evaluate_model(dataset_path: str, model_path: str, metric_name: str) -> NamedTuple('Outputs', [('metric_name', str), ('metric_value', float),
