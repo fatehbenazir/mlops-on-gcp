@@ -45,7 +45,7 @@ from googleapiclient import errors
 
 def train_evaluate(job_dir, training_dataset_path, n_estimators, max_leaf_nodes, max_depth, min_samples_split, max_features, 
                    class_weight, bootstrap, hptune):
-    data = pd.read_excel(trainin g_dataset_path,sheet_name='data')
+    data = pd.read_excel(training_dataset_path,sheet_name='data')
     meta_data = pd.read_excel(training_dataset_path, sheet_name='meta data')
     
     numeric_vars = ((data.dtypes == 'float64') | (data.dtypes == 'int64')) & (meta_data['variable type'] == 'independent').values
