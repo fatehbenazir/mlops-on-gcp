@@ -76,6 +76,23 @@ HYPERTUNE_SETTINGS = """
                 "parameterName": "min_samples_split",
                 "type": "DISCRETE",
                 "discreteValues": [2,5,10]
+            },
+            {
+                "parameterName": "max_features",
+                "type": "DOUBLE",
+                "minValue": 0.5,
+                "maxValue": 1.0,
+                "scaleType": "UNIT_LINEAR_SCALE"
+            },
+            {
+                "parameterName": "class_weight",
+                "type": "CATEGORICAL",
+                "categoricalValues": [ "balanced", "balanced_subsample"]
+            },
+            {
+                "parameterName": "bootstrap",
+                "type": "CATEGORICAL",
+                "categoricalValues": [ "TRUE", "FALSE"]
             }
         ]
     }
@@ -201,6 +218,9 @@ def amyris_train(project_id,
         '--max_leaf_nodes',get_best_trial.outputs['max_leaf_nodes'], 
         '--max_depth',get_best_trial.outputs['max_depth'],
         '--min_samples_split',get_best_trial.outputs['min_samples_split'],
+        '--max_features',get_best_trial.outputs['max_features'],
+        '--class_weight',get_best_trial.outputs['class_weight'],
+        '--bootstrap',get_best_trial.outputs['bootstrap'],
         '--hptune', 'False'
     ]
 

@@ -17,7 +17,8 @@ from typing import NamedTuple
 
 
 def retrieve_best_run(project_id: str, job_id: str) -> NamedTuple('Outputs', [('metric_value', float), ('n_estimators', int),
-                            ('max_leaf_nodes', int), ('max_depth', int), ('min_samples_split', int)]):
+                            ('max_leaf_nodes', int), ('max_depth', int), ('min_samples_split', int),
+                             ('max_features', float), ('class_weight', str), ('bootstrap', str)]):
     """Retrieves the parameters of the best Hypertune run."""
 
     from googleapiclient import discovery
@@ -45,8 +46,11 @@ def retrieve_best_run(project_id: str, job_id: str) -> NamedTuple('Outputs', [('
     max_leaf_nodes = int(best_trial['hyperparameters']['max_leaf_nodes'])
     max_depth = int(best_trial['hyperparameters']['max_depth'])
     min_samples_split = int(best_trial['hyperparameters']['min_samples_split'])
+    max_features = float(best_trial['hyperparameters']['max_features'])
+    class_weight = best_trial['hyperparameters']['class_weight']
+    bootstrap = best_trial['hyperparameters']['bootstrap']
 
-    return (metric_value, n_estimators, max_leaf_nodes, max_depth, min_samples_split)
+    return (metric_value, n_estimators, max_leaf_nodes, max_depth, min_samples_split, max_features, class_weight, bootstrap )
 
 
 def evaluate_model(dataset_path: str, model_path: str, metric_name: str) -> NamedTuple('Outputs', [('metric_name', str), ('metric_value', float),

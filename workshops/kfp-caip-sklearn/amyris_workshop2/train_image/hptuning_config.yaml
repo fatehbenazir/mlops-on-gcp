@@ -44,3 +44,21 @@ trainingInput:
           5,
           10
           ]
+    - parameterName: max_features
+      type: DOUBLE
+      minValue: 0.5
+      maxValue: 1.0
+      scaleType: UNIT_LINEAR_SCALE
+    - parameterName: class_weight
+      type: CATEGORICAL
+      categoricalValues: [
+          "balanced",
+          "balanced_subsample"
+      ]
+    - parameterName: bootstrap
+      type: CATEGORICAL
+      categoricalValues: [
+          "TRUE",
+          "FALSE"
+      ]
+        

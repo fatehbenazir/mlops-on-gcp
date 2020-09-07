@@ -43,8 +43,9 @@ from googleapiclient import discovery
 from googleapiclient import errors
 
 
-def train_evaluate(job_dir, training_dataset_path, n_estimators, max_leaf_nodes, max_depth, min_samples_split, hptune):
-    data = pd.read_excel(training_dataset_path,sheet_name='data')
+def train_evaluate(job_dir, training_dataset_path, n_estimators, max_leaf_nodes, max_depth, min_samples_split, max_features, 
+                   class_weight, bootstrap, hptune):
+    data = pd.read_excel(trainin g_dataset_path,sheet_name='data')
     meta_data = pd.read_excel(training_dataset_path, sheet_name='meta data')
     
     numeric_vars = ((data.dtypes == 'float64') | (data.dtypes == 'int64')) & (meta_data['variable type'] == 'independent').values
@@ -81,7 +82,8 @@ def train_evaluate(job_dir, training_dataset_path, n_estimators, max_leaf_nodes,
     
     
     pipe.set_params(rfclassifier__n_estimators=n_estimators, rfclassifier__max_leaf_nodes=max_leaf_nodes, rfclassifier__max_depth=max_depth,
-                       rfclassifier__min_samples_split=min_samples_split)
+                       rfclassifier__min_samples_split=min_samples_split, rfclassifier__max_features=max_features, 
+                       rfclassifier__class_weight=class_weight, rfclassifier__bootstrap=bootstrap )
     pipe.fit(X_train, y_train)
 
     
