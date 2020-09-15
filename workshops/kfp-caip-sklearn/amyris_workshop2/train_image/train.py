@@ -35,7 +35,6 @@ from sklearn.decomposition import PCA
 from sklearn.utils.class_weight import compute_class_weight
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.ensemble import RandomForestClassifier
-import matplotlib.pyplot as plt
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
 
@@ -85,59 +84,8 @@ def train_evaluate(job_dir, training_dataset_path, n_estimators, max_leaf_nodes,
                        rfclassifier__min_samples_split=min_samples_split, rfclassifier__max_features=max_features, 
                        rfclassifier__class_weight=class_weight, rfclassifier__bootstrap=bootstrap )
     pipe.fit(X_train, y_train)
-
     
-#     _X_train = pipe.fit_transform(X_train)
-#     _y_train = y_train[model_target]
-#     _X_test = pipe.fit_transform(X_test)
-#     _y_test = y_test[model_target]
-    
-      
-#     estimator.fit(_X_train, _y_train) 
-#     rf_predictions = estimator.predict(_X_test)
-#     print('Accuracy of classifier on test set: {:.2f}'.format(estimator.score(_X_test, _y_test).round(2)))
-#     print(classification_report(_y_test, rf_predictions))
-       
-        
-####################################3 
-#         # tune grid
-#     param_grid = {
-#         'n_estimators': np.linspace(10, 200).astype(int),
-#         'max_depth': [None] + list(np.linspace(3, 20).astype(int)),
-#         'max_features': ['auto', 'sqrt', None] + list(np.arange(0.5, 1, 0.1)),
-#         'max_leaf_nodes': [None] + list(np.linspace(10, 50, 500).astype(int)),
-#         'min_samples_split': [2, 5, 10],
-#         'bootstrap': [True, False],
-#         'class_weight' : ["balanced", "balanced_subsample"] # RF classifier tends to be biased towards the majority class, place a heavier penalty on misclassifying the minority class
-#     }
-
-#     print('class weights (1,0): {}'.format(compute_class_weight('balanced', np.unique(_y_train), _y_train)) )
-
-#     # Create the random search model
-#     rs = RandomizedSearchCV(estimator, param_grid, n_jobs = -1, 
-#                             scoring = 'roc_auc', cv = 3, 
-#                             n_iter = 10, verbose = 1, random_state=42)
-
-#     # Fit 
-#     rs.fit(_X_train, _y_train)
-
-#     #select best model
-#     best_model = rs.best_estimator_
-
-#     train_rf_predictions = best_model.predict(_X_train)
-#     train_rf_probs = best_model.predict_proba(_X_train)[:, 1]
-
-#     rf_predictions = best_model.predict(_X_test)
-#     rf_probs = best_model.predict_proba(_X_test)[:, 1]
-# #     evaluate performance on validation data
-#     print('Accuracy of classifier on validation set: {:.2f}'.format(best_model.score(_X_test, _y_test).round(2)))
-#     print(classification_report(_y_test, rf_predictions))
-
-#########################################################3
-
     if hptune:
-#         _X_validate = pipe.fit_transform(X_validate)
-#         _y_validate = y_validate[model_target]
         accuracy = pipe.score(X_validate, y_validate)
         print('Model accuracy: {}'.format(accuracy))
         # Log it with hypertune

@@ -34,9 +34,12 @@ RUNTIME_VERSION = os.getenv('RUNTIME_VERSION')
 PYTHON_VERSION = os.getenv('PYTHON_VERSION')
 COMPONENT_URL_SEARCH_PREFIX = os.getenv('COMPONENT_URL_SEARCH_PREFIX')
 USE_KFP_SA = os.getenv('USE_KFP_SA')
-TRAINING_FILE_PATH = 'gs://benazirsproject-demo/data/training/Anonymized_Fermentation_Data_final.xlsx'
-TESTING_FILE_PATH = 'gs://benazirsproject-demo/data/testing/test_amyris.csv'
+INPUT_FILE = os.getenv('INPUT_FILE')
+TESTING_FILE_PATH = os.getenv('TESTING_FILE_PATH')
+
+
 # VALIDATION_FILE_PATH = 'datasets/validation/data.csv'
+
 # TESTING_FILE_PATH = 'datasets/testing/data.csv'
 
 # Parameter defaults
@@ -189,7 +192,7 @@ def amyris_train(project_id,
     # Tune hyperparameters
     tune_args = [
         '--training_dataset_path',
-        TRAINING_FILE_PATH,
+        INPUT_FILE,
          '--hptune', 'True'
     ]
 
@@ -213,7 +216,7 @@ def amyris_train(project_id,
 
     train_args = [
         '--training_dataset_path',
-       TRAINING_FILE_PATH,
+       INPUT_FILE,
         '--n_estimators',get_best_trial.outputs['n_estimators'], 
         '--max_leaf_nodes',get_best_trial.outputs['max_leaf_nodes'], 
         '--max_depth',get_best_trial.outputs['max_depth'],
